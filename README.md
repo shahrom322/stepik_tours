@@ -1,2 +1,2 @@
 # stepik_tours
-Мой первый проект на Django!
+My first Django project!
