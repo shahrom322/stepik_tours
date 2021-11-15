@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ block.super }} : Главная
+{% endblock %}
+{% block content %}
+<main class="container mt-3">
+    <h1 class="display-5 mt-4">Летим
+<!--        почему {{ departures.departure }} не работает?-->
+        {% for slug, dep in departures.items %}
+        {% if slug == departure %}
+        {{ dep }}
+        {% endif %}
+        {% endfor %}</h1>
+    <p class="mb-4">Найдено {{ count }} туров, от {{ min_price }} до {{ max_price }} и от {{ min_nights }} ночей до
+        {{ max_nights }} ночей</p>
+    <!-- CARDS -->
+    <div class="row mt-5">
+        {% for id, tour in tours_by_departure.items %}
+        <div class="col-4">
+            <div class="card mb-4">
+                <img src="{{ tour.picture }}" class="card-img-top img-fluid" alt="">
+                <div class="card-body">
+                    <h2 class="h5 card-title">{{tour.title}}</h2>
+                    <p class="card-text">{{ tour.description|slice:100 }}</p>
+                    <a href="{% url 'tour' id %}" class="btn btn-sm btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
