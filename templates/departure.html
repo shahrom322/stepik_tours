@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load tours_filter %}
+
 {% block title %}
     {{ block.super }} : Главная
 {% endblock %}
@@ -11,7 +13,7 @@
         {{ dep }}
         {% endif %}
         {% endfor %}</h1>
-    <p class="mb-4">Найдено {{ count }} туров, от {{ min_price }} до {{ max_price }} и от {{ min_nights }} ночей до
+    <p class="mb-4">Найдено {{ count }} туров, от {{ min_price|get_number_format }} до {{ max_price|get_number_format }} и от {{ min_nights }} ночей до
         {{ max_nights }} ночей</p>
     <!-- CARDS -->
     <div class="row mt-5">

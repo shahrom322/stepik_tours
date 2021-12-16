@@ -50,11 +50,6 @@ def departure_view(request, departure):
 
     count = len(tours_by_departure)
 
-    if isinstance(min_price, int):
-        min_price = '{:,}'.format(min_price).replace(',', ' ')
-    if isinstance(max_price, int):
-        max_price = '{:,}'.format(max_price).replace(',', ' ')
-
     return render(
         request,
         'departure.html',
@@ -71,13 +66,10 @@ def departure_view(request, departure):
     )
 
 
-def tour_view(request, id):
-    tour = tours.get(id)
+def tour_view(request, primary_key):
+    tour = tours.get(primary_key)
     tour_departure = departures.get(tour['departure'])
-    if isinstance(tour['price'], int):
-        tour['price'] = '{:,}'.format(tour['price']).replace(',', ' ')
-    if '★' not in tour['stars']:
-        tour['stars'] = '★' * int(tour['stars'])
+
     return render(
         request,
         'tour.html',
