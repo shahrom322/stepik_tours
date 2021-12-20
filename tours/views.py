@@ -7,15 +7,7 @@ from .tours import title, subtitle, description, departures, tours
 
 
 def main_view(request):
-    random_tours = dict()
-    tours_count = 0
-    while tours_count != 6:
-        choice = random.randint(1, len(tours))
-        if choice in random_tours.keys():
-            continue
-        random_tours[choice] = tours[choice]
-        tours_count += 1
-
+    random_tours = dict(random.sample(tours.items(), 6))
     return render(
         request,
         'index.html',
@@ -30,25 +22,15 @@ def main_view(request):
 
 
 def departure_view(request, departure):
-    tours_by_departure = dict()
-    min_price = float("inf")
-    min_nights = float("inf")
-    max_price = 0
-    max_nights = 0
+    tours_by_departure = dict(filter(lambda x: x[1]['departure'] == departure, tours.items()))
 
-    for key, tour in tours.items():
-        if tour['departure'] == departure:
-            tours_by_departure[key] = tour
-            if tour['price'] < min_price:
-                min_price = tour['price']
-            if tour['price'] > max_price:
-                max_price = tour['price']
-            if tour['nights'] < min_nights:
-                min_nights = tour['nights']
-            if tour['nights'] > max_nights:
-                max_nights = tour['nights']
+    max_nights = max(tours_by_departure.values(), key=lambda x: x['nights'])['nights']
+    min_nights = min(tours_by_departure.values(), key=lambda x: x['nights'])['nights']
 
-    count = len(tours_by_departure)
+    min_price = min(tours_by_departure.values(), key=lambda x: x['price'])['price']
+    max_price = max(tours_by_departure.values(), key=lambda x: x['price'])['price']
+
+    tours_count = len(tours_by_departure)
 
     return render(
         request,
@@ -57,7 +39,7 @@ def departure_view(request, departure):
             'departure': departure,
             'tours_by_departure': tours_by_departure,
             'departures': departures,
-            'count': count,
+            'count': tours_count,
             'min_price': min_price,
             'max_price': max_price,
             'min_nights': min_nights,
