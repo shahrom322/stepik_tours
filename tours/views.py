@@ -39,7 +39,7 @@ def departure_view(request, departure):
             'departure': departure,
             'tours_by_departure': tours_by_departure,
             'departures': departures,
-            'count': tours_count,
+            'tours_count': tours_count,
             'min_price': min_price,
             'max_price': max_price,
             'min_nights': min_nights,
